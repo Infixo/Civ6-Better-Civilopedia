@@ -693,4 +693,58 @@ PageLayouts["Strategy"] = function(page)
 	ShowAiLists(tAiLists);
 end
 
+
+-- ===========================================================================
+--	Civilopedia - Unit Class Page Layout
+-- ===========================================================================
+
+PageLayouts["UnitClass"] = function(page)
+	print("...showing page", page.PageLayoutId, page.PageId);
+	local pageId = page.PageId;
+
+	SetPageHeader(page.Title);
+	SetPageSubHeader(page.Subtitle);
+
+	-- Right Column!
+	
+	-- Left Column!
+	
+	-- List of units from TypeTags
+	local chapter_body:table = {};
+	local tResults: table = DB.Query("SELECT Type FROM Typetags WHERE Tag = ? AND Type LIKE 'UNIT_%'", page.PageId);
+	if tResults and #tResults > 0 then
+		local units: table = {}
+		for _,row in ipairs(tResults) do
+			local unitInfo: table = GameInfo.Units[row.Type];
+			if unitInfo then
+				table.insert(units, LL(unitInfo.Name));
+			else
+				table.insert(chapter_body, "[COLOR_Red]Unknown unit "..row.Type..".[ENDCOLOR]");
+			end
+		end
+		table.sort(units);
+		table.insert(chapter_body, table.concat(units, ", "));
+	else -- no units?
+		table.insert(chapter_body, "[COLOR_Red]There are no units in this class.[ENDCOLOR]");
+	end
+	AddChapter(LL("LOC_PEDIA_UNITS_TITLE"), chapter_body);
+
+	-- List of abilities from TypeTags
+	chapter_body = {};
+	tResults = DB.Query("SELECT * FROM TypeTags JOIN UnitAbilities ON UnitAbilities.UnitAbilityType = TypeTags.Type WHERE Tag = ? AND Type LIKE 'ABILITY_%'", page.PageId);
+	if tResults and #tResults > 0 then
+		for _,row in ipairs(tResults) do
+			if row.Name and row.Description then
+				table.insert(chapter_body, string.format("[ICON_You]%s[NEWLINE]%s", LL(row.Name), LL(row.Description)));
+			else
+				table.insert(chapter_body, string.format("[ICON_You][COLOR_Red]%s[ENDCOLOR]", row.UnitAbilityType));
+			end
+		end
+	else -- no abilities?
+		table.insert(chapter_body, "[COLOR_Red]There are no abilities registered for this class.[ENDCOLOR]");
+	end
+	table.sort(chapter_body);
+	AddChapter(LL("LOC_LOADING_FEATURES_ABILITIES"), chapter_body);
+end
+
 print("OK loaded CivilopediaPage_BCP_Base.lua from Better Civilopedia");

@@ -99,6 +99,7 @@ local tPagesToSkip:table = {
 	Adjacencies = true,
 	TimeStrategy = true,
 	Strategy = true,
+	UnitClass = true,
 	-- TCS Pedialite
 	Mods = true,
 	ModsIntro = true,
@@ -449,7 +450,7 @@ PageLayouts["Unit"] = function(page)
 		table.sort(tUnitClasses);
 		AddRightColumnStatBox("[ICON_Bullet][ICON_Bullet][ICON_Bullet]", function(s)
 			s:AddSeparator();
-			s:AddHeader("UnitClasses");
+			s:AddHeader("LOC_BCP_UNIT_CLASSES");
 			for _,unitclass in ipairs(tUnitClasses) do s:AddLabel(unitclass); end
 			s:AddSeparator();
 		end);

@@ -9,6 +9,7 @@
 -- 2023-04-03: Added District Adjacencies
 -- 2023-04-05: Added Time Strategies
 -- 2023-04-06: Added Strategies
+-- 2023-05-09: Added Unit Classes (#7)
 --------------------------------------------------------------
 -->
 <GameInfo>
@@ -18,6 +19,7 @@
 		<Row SectionID="CIVILIZATIONS"  PageGroupId="STRATEGIES"     Name="LOC_BCP_AI_STRATEGIES"                                  Tooltip="" VisibleIfEmpty="false" SortIndex="35"/>
 		<Row SectionID="CIVILIZATIONS"  PageGroupId="TIMESTRATEGIES" Name="LOC_BCP_AI_TIME_STRATS"                                 Tooltip="" VisibleIfEmpty="false" SortIndex="40"/>
 		<Row SectionID="UNITPROMOTIONS" PageGroupId="UNITABILITIES"  Name="LOC_PEDIA_UNITPROMOTIONS_PAGEGROUP_UNIT_ABILITIES_NAME" Tooltip="" VisibleIfEmpty="false" SortIndex="100"/>
+		<Row SectionID="UNITS"          PageGroupId="UNITCLASSES"    Name="LOC_BCP_UNIT_CLASSES"                                   Tooltip="" VisibleIfEmpty="false" SortIndex="60"/>
 	</CivilopediaPageGroups>
 	<!-- Queries to select pages into a PageGroup -->
 	<CivilopediaPageQueries>
@@ -29,6 +31,9 @@
 		</Row>
 		<Row SectionId="UNITPROMOTIONS" PageGroupIdColumn="PageGroupId" TooltipColumn="Tooltip" SortIndex="10">
 			<SQL>SELECT UnitAbilityType as PageId, "UNITABILITIES" as PageGroupId, "UnitAbility" as PageLayoutId, Name, NULL as Tooltip FROM UnitAbilities</SQL>
+		</Row>
+		<Row SectionId="UNITS" PageGroupIdColumn="PageGroupId" TooltipColumn="Tooltip" SortIndex="10">
+			<SQL>SELECT Tag as PageId, "UNITCLASSES" as PageGroupId, "UnitClass" as PageLayoutId, Tag as Name, NULL as Tooltip FROM Tags WHERE Vocabulary = 'ABILITY_CLASS' ORDER BY Name</SQL>
 		</Row>
 	</CivilopediaPageQueries>
 	<!-- Each page will be added separately as there's no simple query to select the groups from DB -->
@@ -58,5 +63,6 @@
 		<Row PageLayoutId="Adjacencies"  ScriptTemplate="Adjacencies"/>
 		<Row PageLayoutId="TimeStrategy" ScriptTemplate="TimeStrategy"/>
 		<Row PageLayoutId="Strategy"     ScriptTemplate="Strategy"/>
+		<Row PageLayoutId="UnitClass"    ScriptTemplate="UnitClass"/>
 	</CivilopediaPageLayouts>
 </GameInfo>

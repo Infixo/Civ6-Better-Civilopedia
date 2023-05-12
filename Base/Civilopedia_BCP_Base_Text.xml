@@ -22,5 +22,8 @@
     <Row Tag="LOC_BCP_EXCLUSIVE">
       <Text> [ICON_New] Exclusive</Text>
     </Row>
+    <Row Tag="LOC_BCP_UNIT_CLASSES"> <!-- 230509 #7 -->
+      <Text>Unit Classes</Text>
+    </Row>
   </BaseGameText>
 </GameData>
